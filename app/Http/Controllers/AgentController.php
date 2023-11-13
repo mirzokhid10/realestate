@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
 {
+    // agent page index
     public function AgentDashboard() {
-        return view('agent.agent_dashboard');
+        return view('agent.index');
     }
 
     // agent login page
@@ -38,5 +39,7 @@ class AgentController extends Controller
         return redirect(RouteServiceProvider::AGENT);
 
     }// End Method
+
+
 
 }
