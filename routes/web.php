@@ -83,9 +83,12 @@ Route::middleware('auth', 'role:agent')->group(function () {
     // Agent dashboard
     Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])
     ->name('agent.dashboard');
+
+    Route::get('/agent/logout', [AgentController::class, 'AgentLogout'])
+    ->name('agent.logout');
 }); // Agent group middleware
 
-// Agent middleware routes
+// Agent login/register routes
 Route::get('/agent/login', [AgentController::class, 'AgentLogin'])
 ->name('agent.login')->middleware(RedirectIfAuthenticated::class);
 
