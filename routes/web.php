@@ -83,7 +83,14 @@ Route::middleware('auth', 'role:agent')->group(function () {
     // Agent dashboard
     Route::get('/agent/dashboard', [AgentController::class, 'AgentDashboard'])
     ->name('agent.dashboard');
-}); // Agent dashboard
+}); // Agent group middleware
+
+// Agent middleware routes
+Route::get('/agent/login', [AgentController::class, 'AgentLogin'])
+->name('agent.login')->middleware(RedirectIfAuthenticated::class);
+
+Route::post('/agent/register', [AgentController::class, 'AgentRegister'])
+->name('agent.register');
 
 // Admin login page
 Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
@@ -102,7 +109,7 @@ Route::middleware(['auth','role:admin'])->group(function(){
 }); //
 
  // Amenities Type All Route
- Route::controller(PropertyTypeController::class)->group(function(){
+Route::controller(PropertyTypeController::class)->group(function(){
 
     Route::get('/all/amenitie', 'AllAmenitie')->name('all.amenitie');
     Route::get('/add/amenitie', 'AddAmenitie')->name('add.amenitie');
