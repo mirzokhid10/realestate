@@ -177,9 +177,9 @@
                                                 multiple="multiple" data-width="100%">
 
                                                 @foreach ($amenities as $ameni)
-                                                    <option value="{{ $ameni->id }}"
-                                                        {{ in_array($ameni->id, $property_ami) ? 'selected' : '' }}>
-                                                        {{ $ameni->amenitis_name }}</option>
+                                                    <option value="{{ $ameni->amenities_name }}"
+                                                        {{ in_array($ameni->amenities_name, $property_ami) ? 'selected' : '' }}>
+                                                        {{ $ameni->amenities_name }}</option>
                                                 @endforeach
 
                                             </select>
