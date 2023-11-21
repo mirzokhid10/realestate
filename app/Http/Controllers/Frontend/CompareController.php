@@ -10,12 +10,11 @@ use Carbon\Carbon;
 
 class CompareController extends Controller
 {
+    // AddToCompare
     public function AddToCompare(Request $request, $property_id){
 
         if(Auth::check()){
-
             $exists = Compare::where('user_id',Auth::id())->where('property_id',$property_id)->first();
-
             if (!$exists) {
                 Compare::insert([
                 'user_id' => Auth::id(),
@@ -30,7 +29,21 @@ class CompareController extends Controller
         }else{
             return response()->json(['error' => 'At First Login Your Account']);
         }
+    }
+
+    // UserCompare
+    public function UserCompare(){
+
+        return view('frontend.dashboard.compare');
+
+    }// End Method
+
+    public function GetCompareProperty(){
+
+        $compare = Compare::with('property')->where('user_id',Auth::id())->latest()->get();
+        return response()->json($compare);
+
+    }// End Method
 
 
-    } // End Method
 }

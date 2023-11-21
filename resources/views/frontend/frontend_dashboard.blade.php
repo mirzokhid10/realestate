@@ -163,6 +163,7 @@
         }
     </script>
 
+    {{-- Add wishlist --}}
     <script type="text/javascript">
         function wishlist() {
             $.ajax({
@@ -254,6 +255,7 @@
         /// End Wishlist Remove
     </script>
 
+    <!-- Add to campare  -->
     <script type="text/javascript">
         function addToCompare(property_id) {
             $.ajax({
@@ -261,7 +263,6 @@
                 dataType: 'json',
                 url: "/add-to-compare/" + property_id,
                 success: function(data) {
-
                     // Start Message
                     const Toast = Swal.mixin({
                         toast: true,
@@ -289,6 +290,123 @@
                 }
             })
         }
+    </script>
+
+    <!-- // start load Wishlist Data  -->
+
+    <script type="text/javascript">
+        function compare() {
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: "/get-compare-property/",
+                success: function(response) {
+                    var rows = ""
+                    $.each(response, function(key, value) {
+
+                        rows += `
+                                <tr>
+                                    <th>Property Info</th>
+                                    <th>
+                                        <figure class="image-box"><img src="/${value.property.property_thambnail}" alt=""></figure>
+                                        <div class="title">${value.property.property_name}</div>
+                                        <div class="price">$${value.property.lowest_price}</div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>City</p>
+                                    </td>
+                                    <td>
+                                        <p>${value.property.city}</p>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Area</p>
+                                    </td>
+                                    <td>
+                                        <p>${value.property.property_size} Sq Ft</p>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Rooms</p>
+                                    </td>
+                                    <td>
+                                        <p>${value.property.bedrooms}</p>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Bathrooms</p>
+                                    </td>
+                                    <td>
+                                        <p>${value.property.bathrooms}</p>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>Action</p>
+                                    </td>
+                                    <td>
+                                        <a type="submit" class="text-body" id="${value.id}" onclick="compareRemove(this.id)" ><i class="fa fa-trash"></i></a>
+                                    </td>
+
+                                </tr> `
+                        });
+
+                    $('#compare').html(rows);
+                }
+            })
+        }
+
+        compare();
+        // Compare Remove Start
+
+        function compareRemove(id) {
+            $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: "/compare-remove/" + id,
+
+                success: function(data) {
+                    compare();
+
+                    // Start Message
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                    if ($.isEmptyObject(data.error)) {
+
+                        Toast.fire({
+                            type: 'success',
+                            icon: 'success',
+                            title: data.success,
+                        })
+
+                    } else {
+
+                        Toast.fire({
+                            type: 'error',
+                            icon: 'error',
+                            title: data.error,
+                        })
+                    }
+                    // End Message
+                }
+            })
+        }
+        /// End Compare Remove
     </script>
 
     {{-- main-js --}}

@@ -262,6 +262,7 @@
                                         @else
                                             <span class="text-danger">Please login to chat</span>
                                         @endauth
+                                        <div class="btn-box"><a href="agents-details.html">View Listing</a></div>
                                     </div>
                                 @endif
                             </div>
@@ -273,8 +274,7 @@
                                         $userData = App\Models\User::find($id);
                                     @endphp
 
-                                    {{-- <form action="{{ route('property.message') }}" method="post" class="default-form"> --}}
-                                    <form action="" method="post" class="default-form">
+                                    <form action="{{ route('property.message') }}" method="post" class="default-form">
                                         @csrf
 
                                         <input type="hidden" name="property_id" value="{{ $property->id }}">
@@ -305,8 +305,7 @@
                                         </div>
                                     </form>
                                 @else
-                                    {{-- <form action="{{ route('property.message') }}" method="post" class="default-form"> --}}
-                                    <form action="" method="post" class="default-form">
+                                    <form action="{{ route('property.message') }}" method="post" class="default-form">
                                         @csrf
 
                                         <input type="hidden" name="property_id" value="{{ $property->id }}">
