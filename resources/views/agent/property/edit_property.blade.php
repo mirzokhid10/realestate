@@ -104,8 +104,15 @@
                                     <div class="col-sm-3">
                                         <div class="mb-3">
                                             <label class="form-label">State</label>
-                                            <input type="text" name="state" class="form-control"
-                                                value="{{ $property->state }}">
+                                            <label class="form-label">State</label>
+                                            <select name="state" class="form-select" id="exampleFormControlSelect1">
+                                                <option selected="" disabled="">Select State</option>
+                                                @foreach ($pstate as $state)
+                                                    <option value="{{ $state->id }}"
+                                                        {{ $state->id == $property->state ? 'selected' : '' }}>
+                                                        {{ $state->state_name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-3">
@@ -179,7 +186,7 @@
                                             <select name="amenities_id[]" class="js-example-basic-multiple form-select"
                                                 multiple="multiple" data-width="100%">
                                                 @foreach ($amenities as $ameni)
-                                                    <option value="{{ $ameni->id }}"
+                                                    <option value="{{ $ameni->amenities_name }}"
                                                         {{ in_array($ameni->amenities_name, $property_ami) ? 'selected' : '' }}>
                                                         {{ $ameni->amenities_name }}</option>
                                                 @endforeach
@@ -565,7 +572,7 @@
 
                     $.each(data, function(index, file) { //loop though each file
                         if (/(\.|\/)(gif|jpe?g|png|webp)$/i.test(file
-                            .type)) { //check supported file type
+                                .type)) { //check supported file type
                             var fRead = new FileReader(); //new filereader
                             fRead.onload = (function(file) { //trigger function on successful read
                                 return function(e) {
@@ -573,7 +580,7 @@
                                             e.target.result).width(100)
                                         .height(80); //create image element
                                     $('#preview_img').append(
-                                    img); //append image to output element
+                                        img); //append image to output element
                                 };
                             })(file);
                             fRead.readAsDataURL(file); //URL representing the file's data.

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\PackagePlan;
 use App\Models\PropertyMessage;
+use App\Models\State;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class AgentPropertyController extends Controller
@@ -35,7 +36,7 @@ class AgentPropertyController extends Controller
 
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
-
+        $pstate = State::latest()->get();
         $id = Auth::user()->id;
         $property = User::where('role','agent')->where('id', $id)->first();
         $pcount = $property->credit;
@@ -43,7 +44,7 @@ class AgentPropertyController extends Controller
         if ($pcount == 1 || $pcount == 7) {
             return redirect()->route('buy.package');
         }else{
-            return view('agent.property.add_property',compact('propertytype','amenities'));
+            return view('agent.property.add_property',compact('propertytype','amenities','pstate'));
         }
 
 
@@ -160,7 +161,7 @@ class AgentPropertyController extends Controller
 
         $facilities = Facility::where('property_id',$id)->get();
         $property = Property::findOrFail($id);
-
+        $pstate = State::latest()->get();
         $type = $property->amenities_id;
         $property_ami = explode(',', $type);
 
@@ -169,7 +170,7 @@ class AgentPropertyController extends Controller
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
 
-        return view('agent.property.edit_property',compact('property','propertytype','amenities','property_ami','multiImage','facilities'));
+        return view('agent.property.edit_property',compact('property','propertytype','amenities','property_ami','multiImage','facilities', 'pstate'));
 
     }// End Method
 

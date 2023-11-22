@@ -11,6 +11,7 @@ use App\Models\Facility;
 use App\Models\PackagePlan;
 use App\Models\PropertyMessage;
 use App\Models\PropertyType;
+use App\Models\State;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Intervention\Image\Facades\Image;
@@ -19,6 +20,7 @@ use Carbon\Carbon;
 
 class PropertyController extends Controller
 {
+    // AllProperty
     public function AllProperty(){
 
         $property = Property::latest()->get();
@@ -26,15 +28,18 @@ class PropertyController extends Controller
 
     } // End Method
 
+    // AddProperty
     public function AddProperty(){
 
         $propertytype = PropertyType::latest()->get();
+        $pstate = State::latest()->get();
         $amenities = Amenities::latest()->get();
         $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
-        return view('backend.property.add_property',compact('propertytype','amenities','activeAgent'));
+        return view('backend.property.add_property',compact('propertytype','pstate', 'amenities','activeAgent'));
 
     }// End Method
 
+    // StoreProperty
     public function StoreProperty(Request $request) {
         $amen = $request -> amenities_id;
         $amenities = implode(",", $amen);
@@ -132,18 +137,17 @@ class PropertyController extends Controller
         $property = Property::findOrFail($id);
         $type = $property->amenities_id;
         $property_ami = explode(',', $type);
-				$multiImage = MultiImage::where('property_id',$id)->get();
+		$multiImage = MultiImage::where('property_id',$id)->get();
+        $pstate = State::latest()->get();
         $propertytype = PropertyType::latest()->get();
         $amenities = Amenities::latest()->get();
         $activeAgent = User::where('status','active')->where('role','agent')->latest()->get();
 
         return view('backend.property.edit_property',
-        compact('property','propertytype','amenities','activeAgent','property_ami', 'multiImage', 'facilities'));
-
+        compact('property','propertytype','amenities','activeAgent','property_ami', 'multiImage','pstate', 'facilities'));
     }// End Method
 
     // update properties
-
     public function UpdateProperty(Request $request){
 
 			$amen = $request->amenities_id;
@@ -193,7 +197,6 @@ class PropertyController extends Controller
 			return redirect()->route('all.property')->with($notification);
 
 	}// End Method
-
 
     // save UpdatePropertyThambnail property
     public function UpdatePropertyThambnail(Request $request){

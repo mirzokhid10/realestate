@@ -101,8 +101,14 @@
                                     <div class="col-sm-3">
                                         <div class="mb-3">
                                             <label class="form-label">State</label>
-                                            <input type="text" name="state" class="form-control"
-                                                value="{{ $property->state }}">
+                                            <select name="state" class="form-select" id="exampleFormControlSelect1">
+                                                <option selected="" disabled="">Select State</option>
+                                                @foreach ($pstate as $state)
+                                                    <option value="{{ $state->id }}"
+                                                        {{ $state->id == $property->state ? 'selected' : '' }}>
+                                                        {{ $state->state_name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div><!-- Col -->
                                     <div class="col-sm-3">
@@ -363,67 +369,71 @@
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $property->id }}">
                                         @foreach ($facilities as $item)
-                                        <div class="row add_item">
-                                            <div class="whole_extra_item_add" id="whole_extra_item_add">
-                                                <div class="whole_extra_item_delete" id="whole_extra_item_delete">
-                                                    <div class="container mt-2 ms-0 ps-0">
-                                                        <div class="row">
-                                                            <div class="form-group col-md-4">
-                                                                <label for="facility_name" style="margin-bottom: -10px">Facilities</label>
-                                                                <select name="facility_name[]" id="facility_name"
-                                                                    class="form-control">
-                                                                    <option value="">Select Facility</option>
-                                                                    <option value="Hospital"
-                                                                        {{ $item->facility_name == 'Hospital' ? 'selected' : '' }}>
-                                                                        Hospital</option>
-                                                                    <option value="SuperMarket"
-                                                                        {{ $item->facility_name == 'SuperMarket' ? 'selected' : '' }}>
-                                                                        Super Market</option>
-                                                                    <option value="School"
-                                                                        {{ $item->facility_name == 'School' ? 'selected' : '' }}>
-                                                                        School</option>
-                                                                    <option value="Entertainment"
-                                                                        {{ $item->facility_name == 'Entertainment' ? 'selected' : '' }}>
-                                                                        Entertainment</option>
-                                                                    <option value="Pharmacy"
-                                                                        {{ $item->facility_name == 'Pharmacy' ? 'selected' : '' }}>
-                                                                        Pharmacy</option>
-                                                                    <option value="Airport"
-                                                                        {{ $item->facility_name == 'Airport' ? 'selected' : '' }}>
-                                                                        Airport</option>
-                                                                    <option value="Railways"
-                                                                        {{ $item->facility_name == 'Railways' ? 'selected' : '' }}>
-                                                                        Railways</option>
-                                                                    <option value="Bus Stop"
-                                                                        {{ $item->facility_name == 'Bus Stop' ? 'selected' : '' }}>
-                                                                        Bus Stop</option>
-                                                                    <option value="Beach"
-                                                                        {{ $item->facility_name == 'Beach' ? 'selected' : '' }}>
-                                                                        Beach</option>
-                                                                    <option value="Mall"
-                                                                        {{ $item->facility_name == 'Mall' ? 'selected' : '' }}>
-                                                                        Mall</option>
-                                                                    <option value="Bank"
-                                                                        {{ $item->facility_name == 'Bank' ? 'selected' : '' }}>
-                                                                        Bank</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-md-4">
-                                                                <label for="distance" style="margin-bottom: -10px">Distance</label>
-                                                                <input type="text" name="distance[]" id="distance"
-                                                                    class="form-control" value="{{ $item->distance }}">
-                                                            </div>
-                                                            <div class="form-group col-md-4" style="padding-top: 20px">
-                                                                <span class="btn btn-success btn-sm addeventmore"><i
-                                                                        class="fa fa-plus-circle">Add</i></span>
-                                                                <span class="btn btn-danger btn-sm removeeventmore"><i
-                                                                        class="fa fa-minus-circle">Remove</i></span>
+                                            <div class="row add_item">
+                                                <div class="whole_extra_item_add" id="whole_extra_item_add">
+                                                    <div class="whole_extra_item_delete" id="whole_extra_item_delete">
+                                                        <div class="container mt-2 ms-0 ps-0">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="facility_name"
+                                                                        style="margin-bottom: -10px">Facilities</label>
+                                                                    <select name="facility_name[]" id="facility_name"
+                                                                        class="form-control">
+                                                                        <option value="">Select Facility</option>
+                                                                        <option value="Hospital"
+                                                                            {{ $item->facility_name == 'Hospital' ? 'selected' : '' }}>
+                                                                            Hospital</option>
+                                                                        <option value="SuperMarket"
+                                                                            {{ $item->facility_name == 'SuperMarket' ? 'selected' : '' }}>
+                                                                            Super Market</option>
+                                                                        <option value="School"
+                                                                            {{ $item->facility_name == 'School' ? 'selected' : '' }}>
+                                                                            School</option>
+                                                                        <option value="Entertainment"
+                                                                            {{ $item->facility_name == 'Entertainment' ? 'selected' : '' }}>
+                                                                            Entertainment</option>
+                                                                        <option value="Pharmacy"
+                                                                            {{ $item->facility_name == 'Pharmacy' ? 'selected' : '' }}>
+                                                                            Pharmacy</option>
+                                                                        <option value="Airport"
+                                                                            {{ $item->facility_name == 'Airport' ? 'selected' : '' }}>
+                                                                            Airport</option>
+                                                                        <option value="Railways"
+                                                                            {{ $item->facility_name == 'Railways' ? 'selected' : '' }}>
+                                                                            Railways</option>
+                                                                        <option value="Bus Stop"
+                                                                            {{ $item->facility_name == 'Bus Stop' ? 'selected' : '' }}>
+                                                                            Bus Stop</option>
+                                                                        <option value="Beach"
+                                                                            {{ $item->facility_name == 'Beach' ? 'selected' : '' }}>
+                                                                            Beach</option>
+                                                                        <option value="Mall"
+                                                                            {{ $item->facility_name == 'Mall' ? 'selected' : '' }}>
+                                                                            Mall</option>
+                                                                        <option value="Bank"
+                                                                            {{ $item->facility_name == 'Bank' ? 'selected' : '' }}>
+                                                                            Bank</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="distance"
+                                                                        style="margin-bottom: -10px">Distance</label>
+                                                                    <input type="text" name="distance[]"
+                                                                        id="distance" class="form-control"
+                                                                        value="{{ $item->distance }}">
+                                                                </div>
+                                                                <div class="form-group col-md-4"
+                                                                    style="padding-top: 20px">
+                                                                    <span class="btn btn-success btn-sm addeventmore"><i
+                                                                            class="fa fa-plus-circle">Add</i></span>
+                                                                    <span class="btn btn-danger btn-sm removeeventmore"><i
+                                                                            class="fa fa-minus-circle">Remove</i></span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         @endforeach
                                         <br>
                                         <br>
@@ -492,106 +502,106 @@
                 });
             </script>
             <!--========== End of add multiple class with ajax ==============-->
-            </div>
         </div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#myForm').validate({
-                    rules: {
-                        property_name: {
-                            required: true,
-                        },
-                        property_status: {
-                            required: true,
-                        },
-                        lowest_price: {
-                            required: true,
-                        },
-                        max_price: {
-                            required: true,
-                        },
-                        ptype_id: {
-                            required: true,
-                        },
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    property_name: {
+                        required: true,
+                    },
+                    property_status: {
+                        required: true,
+                    },
+                    lowest_price: {
+                        required: true,
+                    },
+                    max_price: {
+                        required: true,
+                    },
+                    ptype_id: {
+                        required: true,
+                    },
 
 
+                },
+                messages: {
+                    property_name: {
+                        required: 'Please Enter Property Name',
                     },
-                    messages: {
-                        property_name: {
-                            required: 'Please Enter Property Name',
-                        },
-                        property_status: {
-                            required: 'Please Select Property Status',
-                        },
-                        lowest_price: {
-                            required: 'Please Enter Lowest Price',
-                        },
-                        max_price: {
-                            required: 'Please Enter Max Price',
-                        },
-                        ptype_id: {
-                            required: 'Please Select Property Type',
-                        },
+                    property_status: {
+                        required: 'Please Select Property Status',
+                    },
+                    lowest_price: {
+                        required: 'Please Enter Lowest Price',
+                    },
+                    max_price: {
+                        required: 'Please Enter Max Price',
+                    },
+                    ptype_id: {
+                        required: 'Please Select Property Type',
+                    },
 
-                    },
-                    errorElement: 'span',
-                    errorPlacement: function(error, element) {
-                        error.addClass('invalid-feedback');
-                        element.closest('.form-group').append(error);
-                    },
-                    highlight: function(element, errorClass, validClass) {
-                        $(element).addClass('is-invalid');
-                    },
-                    unhighlight: function(element, errorClass, validClass) {
-                        $(element).removeClass('is-invalid');
-                    },
-                });
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
             });
-        </script>
+        });
+    </script>
 
 
-        <script type="text/javascript">
-            function mainThamUrl(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#mainThmb').attr('src', e.target.result).width(80).height(80);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
+    <script type="text/javascript">
+        function mainThamUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#mainThmb').attr('src', e.target.result).width(80).height(80);
+                };
+                reader.readAsDataURL(input.files[0]);
             }
-        </script>
+        }
+    </script>
 
 
-        <script>
-            $(document).ready(function() {
-                $('#multiImg').on('change', function() { //on file input change
-                    if (window.File && window.FileReader && window.FileList && window
-                        .Blob) //check File API supported browser
-                    {
-                        var data = $(this)[0].files; //this file data
+    <script>
+        $(document).ready(function() {
+            $('#multiImg').on('change', function() { //on file input change
+                if (window.File && window.FileReader && window.FileList && window
+                    .Blob) //check File API supported browser
+                {
+                    var data = $(this)[0].files; //this file data
 
-                        $.each(data, function(index, file) { //loop though each file
-                            if (/(\.|\/)(gif|jpe?g|png|webp)$/i.test(file
-                                    .type)) { //check supported file type
-                                var fRead = new FileReader(); //new filereader
-                                fRead.onload = (function(file) { //trigger function on successful read
-                                    return function(e) {
-                                        var img = $('<img/>').addClass('thumb').attr('src',
-                                                e.target.result).width(100)
-                                            .height(80); //create image element
-                                        $('#preview_img').append(
-                                            img); //append image to output element
-                                    };
-                                })(file);
-                                fRead.readAsDataURL(file); //URL representing the file's data.
-                            }
-                        });
+                    $.each(data, function(index, file) { //loop though each file
+                        if (/(\.|\/)(gif|jpe?g|png|webp)$/i.test(file
+                                .type)) { //check supported file type
+                            var fRead = new FileReader(); //new filereader
+                            fRead.onload = (function(file) { //trigger function on successful read
+                                return function(e) {
+                                    var img = $('<img/>').addClass('thumb').attr('src',
+                                            e.target.result).width(100)
+                                        .height(80); //create image element
+                                    $('#preview_img').append(
+                                        img); //append image to output element
+                                };
+                            })(file);
+                            fRead.readAsDataURL(file); //URL representing the file's data.
+                        }
+                    });
 
-                    } else {
-                        alert("Your browser doesn't support File API!"); //if File API is absent
-                    }
-                });
+                } else {
+                    alert("Your browser doesn't support File API!"); //if File API is absent
+                }
             });
-        </script>
+        });
+    </script>
 @endsection
