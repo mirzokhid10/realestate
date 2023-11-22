@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\PackagePlan;
+use App\Models\PropertyMessage;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class AgentPropertyController extends Controller
@@ -504,6 +505,34 @@ class AgentPropertyController extends Controller
             'chroot' => public_path(),
         ]);
         return $pdf->download('invoice.pdf');
+
+    }// End Method
+
+    // AgentPropertyMessage
+    public function AgentPropertyMessage(){
+
+        $id = Auth::user()->id;
+        $usermsg = PropertyMessage::where('agent_id',$id)->get();
+        return view('agent.message.all_message',compact('usermsg'));
+
+    }// End Method
+
+    // AgentMessageDetails
+    public function AgentMessageDetails($id){
+
+        $uid = Auth::user()->id;
+        $usermsg = PropertyMessage::where('agent_id',$uid)->get();
+
+        $msgdetails = PropertyMessage::findOrFail($id);
+        return view('agent.message.message_details',compact('usermsg','msgdetails'));
+
+    }// End Method
+
+    // AdminPropertyMessage
+    public function AdminPropertyMessage(){
+
+        $usermsg = PropertyMessage::latest()->get();
+        return view('backend.message.all_message',compact('usermsg'));
 
     }// End Method
 }

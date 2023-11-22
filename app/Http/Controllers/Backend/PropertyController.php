@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\MultiImage;
 use App\Models\Facility;
 use App\Models\PackagePlan;
+use App\Models\PropertyMessage;
 use App\Models\PropertyType;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -427,6 +428,13 @@ class PropertyController extends Controller
             'chroot' => public_path(),
         ]);
         return $pdf->download('invoice.pdf');
+
+    }// End Method
+
+    public function AdminPropertyMessage(){
+
+        $usermsg = PropertyMessage::latest()->get();
+        return view('backend.message.all_message',compact('usermsg'));
 
     }// End Method
 }

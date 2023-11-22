@@ -119,6 +119,8 @@ Route::middleware('auth', 'role:agent')->group(function () {
         Route::post('/agent/update/property/facilities', 'AgentUpdatePropertyFacilities')->name('agent.update.property.facilities');
         Route::get('/agent/details/property/{id}', 'AgentDetailsProperty')->name('agent.details.property');
         Route::get('/agent/delete/property/{id}', 'AgentDeleteProperty')->name('agent.delete.property');
+        Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');
+        Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details');
      });
 }); // Agent group middleware
 
@@ -178,6 +180,7 @@ Route::controller(PropertyController::class)->group(function(){
     Route::post('/active/property', 'ActiveProperty')->name('active.property');
     Route::get('/admin/package/history', 'AdminPackageHistory')->name('admin.package.history');
     Route::get('/package/invoice/{id}', 'PackageInvoice')->name('package.invoice');
+    Route::get('/admin/property/message/', 'AdminPropertyMessage')->name('admin.property.message');
 
 });
 
@@ -222,3 +225,18 @@ Route::controller(CompareController::class)->group(function(){
 
 // Send Message from Property Details Page
 Route::post('/property/message', [IndexController::class, 'PropertyMessage'])->name('property.message');
+
+// Agent Details Page in Frontend
+Route::get('/agent/details/{id}', [IndexController::class, 'AgentDetails'])->name('agent.details');
+
+// Send Message from Agent Details Page
+Route::post('/agent/details/message', [IndexController::class, 'AgentDetailsMessage'])->name('agent.details.message');
+
+// Get All Rent Property
+Route::get('/rent/property', [IndexController::class, 'RentProperty'])->name('rent.property');
+
+// Get All Buy Property
+Route::get('/buy/property', [IndexController::class, 'BuyProperty'])->name('buy.property');
+
+// Get All Property Type Data
+Route::get('/property/type/{id}', [IndexController::class, 'PropertyType'])->name('property.type');
