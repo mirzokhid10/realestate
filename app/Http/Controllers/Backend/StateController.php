@@ -43,7 +43,6 @@ class StateController extends Controller
 
     }// End Method
 
-
     public function EditState($id){
 
         $state = State::findOrFail($id);
