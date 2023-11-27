@@ -17,8 +17,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\PackagePlan;
 use App\Models\PropertyMessage;
+use App\Models\Schedule;
 use App\Models\State;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ScheduleMail;
 
 class AgentPropertyController extends Controller
 {
@@ -534,6 +537,50 @@ class AgentPropertyController extends Controller
 
         $usermsg = PropertyMessage::latest()->get();
         return view('backend.message.all_message',compact('usermsg'));
+
+    }// End Method
+
+    // AgentScheduleRequest
+    public function AgentScheduleRequest(){
+        $id = Auth::user()->id;
+        $usermsg = Schedule::where('agent_id',$id)->get();
+        return view('agent.schedule.schedule_request',compact('usermsg'));
+
+    }// End Method
+
+    // AgentDetailsSchedule
+    public function AgentDetailsSchedule($id){
+        $schedule = Schedule::findOrFail($id);
+        return view('agent.schedule.schedule_details',compact('schedule'));
+    } // End Method
+
+    // AgentUpdateSchedule
+    public function AgentUpdateSchedule(Request $request){
+
+        $sid = $request->id;
+
+        Schedule::findOrFail($sid)->update([
+            'status' => '1',
+        ]);
+
+        //// Start Send Email
+
+        $sendmail = Schedule::findOrFail($sid);
+
+        $data = [
+            'tour_date' => $sendmail->tour_date,
+            'tour_time' => $sendmail->tour_time,
+        ];
+
+        Mail::to($request->email)->send(new ScheduleMail($data));
+        /// End Send Email
+        $notification = array(
+            'message' => 'You have Confirm Schedule Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('agent.schedule.request')->with($notification);
+
 
     }// End Method
 }
