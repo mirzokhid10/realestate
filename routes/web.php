@@ -6,6 +6,8 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\PropertyController;
 use App\Http\Controllers\Backend\PropertyTypeController;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\CompareController;
@@ -53,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/password/update', [UserController::class, 'UserPasswordUpdate'])
         ->name('user.password.update');
 
+    Route::get('/user/schedule/request', [UserController::class, 'UserScheduleRequest'])
+        ->name('user.schedule.request');
     // User WishlistAll Route
     Route::controller(WishlistController::class)->group(function () {
         Route::get('/user/wishlist', 'UserWishlist')->name('user.wishlist');
@@ -185,7 +189,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/state/{id}', 'DeleteState')->name('delete.state');
     });
 
-     // Testimonials  All Route
+    // Testimonials  All Route
     Route::controller(TestimonialController::class)->group(function(){
         Route::get('/all/testimonials', 'AllTestimonials')->name('all.testimonials');
         Route::get('/add/testimonials', 'AddTestimonials')->name('add.testimonials');
@@ -207,7 +211,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Testimonials  All Route
     Route::controller(BlogController::class)->group(function(){
-
         Route::get('/all/post', 'AllPost')->name('all.post');
         Route::get('/add/post', 'AddPost')->name('add.post');
         Route::post('/store/post', 'StorePost')->name('store.post');
@@ -216,6 +219,36 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/delete/post/{id}', 'DeletePost')->name('delete.post');
 
     });
+
+    // SMTP Setting  All Route
+    Route::controller(SettingController::class)->group(function(){
+        Route::get('/smtp/setting', 'SmtpSetting')->name('smtp.setting');
+        Route::post('/update/smpt/setting', 'UpdateSmtpSetting')->name('update.smpt.setting');
+
+    });
+
+    // Site Setting  All Route
+    Route::controller(SettingController::class)->group(function(){
+        Route::get('/site/setting', 'SiteSetting')->name('site.setting');
+        Route::post('/update/site/setting', 'UpdateSiteSetting')->name('update.site.setting');
+    });
+
+    // Permission All Route
+    Route::controller(RoleController::class)->group(function(){
+
+        Route::get('/all/permission', 'AllPermission')->name('all.permission');
+        Route::get('/add/permission', 'AddPermission')->name('add.permission');
+        Route::post('/store/permission', 'StorePermission')->name('store.permission');
+        Route::get('/edit/permission/{id}', 'EditPermission')->name('edit.permission');
+        Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+        Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');
+
+        Route::get('/import/permission', 'ImportPermission')->name('import.permission');
+        Route::get('/export', 'Export')->name('export');
+        Route::post('/import', 'Import')->name('import');
+
+    });
+
 }); // End Group Admin Middleware
 
 /// Agent Group Middleware
